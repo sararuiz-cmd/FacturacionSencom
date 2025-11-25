@@ -150,6 +150,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\AuthService.cs" />
+    <Compile Include="Business\ValidadorUsuario.cs" />
+    <Compile Include="Business\ValidadorFactura.cs" />
+    <Compile Include="Business\Utilidades.cs" />
     <Compile Include="Business\FacturaController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
