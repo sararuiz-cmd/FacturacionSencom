@@ -150,6 +150,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\AuthService.cs" />
+    <Compile Include="Business\ThemeManager.cs" />
+    <Compile Include="Business\PrediccionIAService.cs" />
+    <Compile Include="Business\PdfService.cs" />
     <Compile Include="Business\ValidadorUsuario.cs" />
     <Compile Include="Business\ValidadorFactura.cs" />
     <Compile Include="Business\Utilidades.cs" />
