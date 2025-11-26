@@ -2,8 +2,6 @@
 using iTextSharp.text.pdf;
 using Proyect_Sencom_Form.Domain;
 using System;
-using System.Drawing;
-using System.Drawing.Printing;
 using System.IO;
 using System.Xml.Linq;
 

@@ -16,7 +16,7 @@ namespace Proyect_Sencom_Form.UI
             ThemeManager.LoadTheme();
             ThemeManager.ApplyTheme(this);
 
-            // Asegurar suscripción a eventos en caso de que no esté configurada en el diseñador
+            // Asegurar suscripción a eventos
             if (btnIniciarSesion != null)
             {
                 btnIniciarSesion.Click -= btnIniciarSesion_Click;
@@ -62,9 +62,10 @@ namespace Proyect_Sencom_Form.UI
 
                 if (auth.ValidarLogin(usuario, contrasena))
                 {
-                    Program.FormContext.CurrentUser = usuario; // guardar usuario
-                    // Navegación única
-                    Program.FormContext.Navigate(new FrmMain(usuario, _controller));
+                    // Navegación estándar Windows Forms
+                    var main = new FrmMain(usuario, _controller);
+                    main.Show();
+                    this.Hide();
                 }
                 else
                 {
@@ -119,7 +120,7 @@ namespace Proyect_Sencom_Form.UI
             }
         }
 
-        private void btnIniciarSesion_Click_1(object sender, EventArgs e)
+        private void FrmLogin_Load(object sender, EventArgs e)
         {
 
         }

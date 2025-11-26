@@ -8,15 +8,15 @@ namespace Proyect_Sencom_Form
     static class Program
     {
         public static FacturaController ControllerGlobal = new FacturaController();
-        public static SingleFormContext FormContext = new SingleFormContext();
 
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            FormContext.ShowForm(new FrmLogin(ControllerGlobal));
-            Application.Run(FormContext);
+
+            // Iniciar con login
+            Application.Run(new FrmLogin(ControllerGlobal));
         }
     }
 }

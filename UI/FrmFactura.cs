@@ -86,7 +86,10 @@ namespace Proyect_Sencom_Form.UI
         // Método público para volver al principal si se requiere desde UI
         public void VolverAlPrincipal(string usuario = "")
         {
-            Program.FormContext.Navigate(new FrmMain(usuario, _controller));
+            var frm = new FrmMain(usuario, _controller);
+            frm.Show();
+            this.Hide();
+
         }
     }
 }

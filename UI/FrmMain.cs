@@ -43,8 +43,10 @@ namespace Proyect_Sencom_Form.UI
         private void AbrirUnico(Form frm)
         {
             ThemeManager.ApplyTheme(frm);
-            Program.FormContext.Navigate(frm);
+            frm.Show();
+            this.Hide();
         }
+
 
         private void btnRegistrarFactura_Click(object sender, EventArgs e)
         {

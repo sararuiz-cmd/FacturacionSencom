@@ -84,7 +84,15 @@ namespace Proyect_Sencom_Form.UI
 
         public void VolverAlPrincipal(string usuario = "")
         {
-            Program.FormContext.Navigate(new FrmMain(usuario, _controller));
+            var frm = new FrmMain(usuario, _controller);
+            frm.Show();
+            this.Hide();
+
+        }
+
+        private void lblTitulo_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

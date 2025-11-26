@@ -159,6 +159,8 @@
     <Compile Include="Business\FacturaController.cs" />
     <Compile Include="Domain\ArbolFactura.cs" />
     <Compile Include="Domain\Cliente.cs" />
+    <Compile Include="Domain\Factura.cs" />
+    <Compile Include="Domain\NodoFactura.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\FrmFactura.cs">

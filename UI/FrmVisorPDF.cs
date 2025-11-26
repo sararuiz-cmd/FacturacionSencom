@@ -43,7 +43,16 @@ namespace Proyect_Sencom_Form.UI
 
         public void VolverAlPrincipal(string usuario = "")
         {
-            Program.FormContext.Navigate(new FrmMain(usuario, Program.ControllerGlobal));
+            var frm = new FrmMain(usuario, Program.ControllerGlobal);
+            frm.Show();
+            this.Hide();
+
+
+        }
+
+        private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+
         }
     }
 }
