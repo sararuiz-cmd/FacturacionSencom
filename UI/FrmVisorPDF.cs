@@ -18,6 +18,7 @@ namespace Proyect_Sencom_Form.UI
         private void FrmVisorPDF_Load(object sender, EventArgs e)
         {
             ThemeManager.ApplyTheme(this);
+
             try
             {
                 if (string.IsNullOrWhiteSpace(rutaPdf))
@@ -26,12 +27,14 @@ namespace Proyect_Sencom_Form.UI
                     Close();
                     return;
                 }
+
                 if (!System.IO.File.Exists(rutaPdf))
                 {
                     MessageBox.Show("El archivo PDF no existe.");
                     Close();
                     return;
                 }
+
                 webBrowser1.Navigate(rutaPdf);
             }
             catch (Exception ex)
@@ -41,18 +44,32 @@ namespace Proyect_Sencom_Form.UI
             }
         }
 
-        public void VolverAlPrincipal(string usuario = "")
+        // ---- ⚠️ ELIMINADO: NO crear nuevos FrmMain ----
+        // public void VolverAlPrincipal(string usuario = "") { ... }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            var frm = new FrmMain(usuario, Program.ControllerGlobal);
-            frm.Show();
-            this.Hide();
+            try
+            {
+                // Muy importante: liberar recursos del navegador
+                if (webBrowser1 != null)
+                {
+                    webBrowser1.Dispose();
+                }
+            }
+            catch { }
 
+            // Volver al formulario padre
+            var main = this.Tag as Form;
 
+            if (main != null)
+                main.Show();
+            else
+                Application.Exit();
         }
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-
         }
     }
 }

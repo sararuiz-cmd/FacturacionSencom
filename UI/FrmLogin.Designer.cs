@@ -129,6 +129,7 @@
             this.lblMensaje.Size = new System.Drawing.Size(320, 40);
             this.lblMensaje.TabIndex = 4;
             this.lblMensaje.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblMensaje.Click += new System.EventHandler(this.lblMensaje_Click);
             // 
             // pictureBox1
             // 

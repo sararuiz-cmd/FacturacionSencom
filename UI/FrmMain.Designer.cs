@@ -20,7 +20,6 @@
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.lblUsuario = new System.Windows.Forms.Label();
             this.btnVerGrafico = new System.Windows.Forms.Button();
             this.btnRegistrarFactura = new System.Windows.Forms.Button();
@@ -29,6 +28,7 @@
             this.panelHeader = new System.Windows.Forms.Panel();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.panelBotones = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.panelHeader.SuspendLayout();
             this.panelBotones.SuspendLayout();
             this.SuspendLayout();
@@ -119,19 +119,37 @@
             this.lblTitulo.TabIndex = 0;
             this.lblTitulo.Text = "Menú Principal";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTitulo.Click += new System.EventHandler(this.lblTitulo_Click);
             // 
             // panelBotones
             // 
             this.panelBotones.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panelBotones.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelBotones.Controls.Add(this.button1);
             this.panelBotones.Controls.Add(this.btnExportarPdf);
             this.panelBotones.Controls.Add(this.btnPrediccionIA);
             this.panelBotones.Controls.Add(this.btnRegistrarFactura);
             this.panelBotones.Controls.Add(this.btnVerGrafico);
             this.panelBotones.Location = new System.Drawing.Point(20, 90);
             this.panelBotones.Name = "panelBotones";
-            this.panelBotones.Size = new System.Drawing.Size(760, 200);
+            this.panelBotones.Size = new System.Drawing.Size(760, 218);
             this.panelBotones.TabIndex = 0;
+            this.panelBotones.Paint += new System.Windows.Forms.PaintEventHandler(this.panelBotones_Paint);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.DimGray;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(247, 164);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(230, 36);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Atrás";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.btnVolver_Click);
+
             // 
             // FrmMain
             // 
@@ -141,16 +159,18 @@
             this.Controls.Add(this.panelHeader);
             this.Controls.Add(this.lblUsuario);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menú Principal";
+            this.Load += new System.EventHandler(this.FrmMain_Load);
             this.panelHeader.ResumeLayout(false);
             this.panelBotones.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
+
+        private System.Windows.Forms.Button button1;
     }
 }

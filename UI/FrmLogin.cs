@@ -124,6 +124,16 @@ namespace Proyect_Sencom_Form.UI
         {
 
         }
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            Application.Exit(); // Login es la raíz, si se cierra, termina el programa.
+        }
+
+
+        private void lblMensaje_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

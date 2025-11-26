@@ -43,9 +43,11 @@ namespace Proyect_Sencom_Form.UI
         private void AbrirUnico(Form frm)
         {
             ThemeManager.ApplyTheme(frm);
+            frm.Tag = this;     // guardar referencia al formulario padre
             frm.Show();
             this.Hide();
         }
+
 
 
         private void btnRegistrarFactura_Click(object sender, EventArgs e)
@@ -94,14 +96,41 @@ namespace Proyect_Sencom_Form.UI
 
         private void btnVerGrafico_Click(object sender, EventArgs e)
         {
-            var lista = _controller.ObtenerTodasLasFacturas();
-            if (lista == null || lista.Count == 0)
-            {
-                MessageBox.Show("Debe generar facturas antes de ver el gráfico.");
-                return;
-            }
-            AbrirUnico(new FrmGrafico(_controller));
+            var frm = new FrmGrafico(_controller);
+            frm.Tag = this;  // ← Enlaza el padre
+            frm.Show();
+            this.Hide();
         }
+
+
+        private void lblTitulo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+        private void panelBotones_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void FrmMain_Load(object sender, EventArgs e)
+        {
+
+        }
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            var main = this.Tag as Form;
+            if (main != null)
+                main.Show();
+
+            this.Close();
+        }
+
+
+
+
     }
 }
 

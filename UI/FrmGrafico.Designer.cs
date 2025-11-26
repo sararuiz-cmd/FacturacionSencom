@@ -35,6 +35,7 @@
             this.chart1.Name = "chart1";
             this.chart1.Size = new System.Drawing.Size(1013, 640);
             this.chart1.TabIndex = 0;
+            this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
             // panelHeader
             // 

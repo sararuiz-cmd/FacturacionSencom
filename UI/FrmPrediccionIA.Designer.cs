@@ -26,7 +26,6 @@ namespace Proyect_Sencom_Form.UI
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrediccionIA));
             this.txtNombreCliente = new System.Windows.Forms.TextBox();
             this.txtMesPrediccion = new System.Windows.Forms.TextBox();
             this.txtResultado = new System.Windows.Forms.TextBox();
@@ -39,6 +38,7 @@ namespace Proyect_Sencom_Form.UI
             this.panelHeader = new System.Windows.Forms.Panel();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.panelContenido = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.panelHeader.SuspendLayout();
             this.panelContenido.SuspendLayout();
             this.SuspendLayout();
@@ -48,7 +48,7 @@ namespace Proyect_Sencom_Form.UI
             this.txtNombreCliente.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtNombreCliente.Location = new System.Drawing.Point(160, 17);
             this.txtNombreCliente.Name = "txtNombreCliente";
-            this.txtNombreCliente.Size = new System.Drawing.Size(200, 25);
+            this.txtNombreCliente.Size = new System.Drawing.Size(200, 30);
             this.txtNombreCliente.TabIndex = 1;
             // 
             // txtMesPrediccion
@@ -56,7 +56,7 @@ namespace Proyect_Sencom_Form.UI
             this.txtMesPrediccion.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtMesPrediccion.Location = new System.Drawing.Point(160, 52);
             this.txtMesPrediccion.Name = "txtMesPrediccion";
-            this.txtMesPrediccion.Size = new System.Drawing.Size(200, 25);
+            this.txtMesPrediccion.Size = new System.Drawing.Size(200, 30);
             this.txtMesPrediccion.TabIndex = 3;
             // 
             // txtResultado
@@ -65,7 +65,7 @@ namespace Proyect_Sencom_Form.UI
             this.txtResultado.Location = new System.Drawing.Point(160, 132);
             this.txtResultado.Name = "txtResultado";
             this.txtResultado.ReadOnly = true;
-            this.txtResultado.Size = new System.Drawing.Size(200, 25);
+            this.txtResultado.Size = new System.Drawing.Size(200, 30);
             this.txtResultado.TabIndex = 7;
             // 
             // lblMensaje
@@ -77,6 +77,7 @@ namespace Proyect_Sencom_Form.UI
             this.lblMensaje.Size = new System.Drawing.Size(380, 25);
             this.lblMensaje.TabIndex = 2;
             this.lblMensaje.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblMensaje.Click += new System.EventHandler(this.lblMensaje_Click);
             // 
             // btnEntrenar
             // 
@@ -112,7 +113,7 @@ namespace Proyect_Sencom_Form.UI
             this.lblCliente.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblCliente.Location = new System.Drawing.Point(20, 20);
             this.lblCliente.Name = "lblCliente";
-            this.lblCliente.Size = new System.Drawing.Size(119, 19);
+            this.lblCliente.Size = new System.Drawing.Size(142, 23);
             this.lblCliente.TabIndex = 0;
             this.lblCliente.Text = "Nombre Cliente:";
             // 
@@ -122,7 +123,7 @@ namespace Proyect_Sencom_Form.UI
             this.lblMes.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblMes.Location = new System.Drawing.Point(20, 55);
             this.lblMes.Name = "lblMes";
-            this.lblMes.Size = new System.Drawing.Size(114, 19);
+            this.lblMes.Size = new System.Drawing.Size(133, 23);
             this.lblMes.TabIndex = 2;
             this.lblMes.Text = "Mes a Predecir:";
             // 
@@ -132,7 +133,7 @@ namespace Proyect_Sencom_Form.UI
             this.lblResultado.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblResultado.Location = new System.Drawing.Point(20, 135);
             this.lblResultado.Name = "lblResultado";
-            this.lblResultado.Size = new System.Drawing.Size(79, 19);
+            this.lblResultado.Size = new System.Drawing.Size(94, 23);
             this.lblResultado.TabIndex = 6;
             this.lblResultado.Text = "Resultado:";
             // 
@@ -175,15 +176,29 @@ namespace Proyect_Sencom_Form.UI
             this.panelContenido.Size = new System.Drawing.Size(380, 200);
             this.panelContenido.TabIndex = 0;
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.DimGray;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(20, 268);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(95, 30);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Atrás";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.lblMensaje_Click);
+            // 
             // FrmPrediccionIA
             // 
             this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(420, 310);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.panelContenido);
             this.Controls.Add(this.panelHeader);
             this.Controls.Add(this.lblMensaje);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmPrediccionIA";
@@ -196,5 +211,7 @@ namespace Proyect_Sencom_Form.UI
             this.ResumeLayout(false);
 
         }
+
+        private Button button1;
     }
 }

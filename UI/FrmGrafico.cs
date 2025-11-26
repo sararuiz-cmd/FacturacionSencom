@@ -21,13 +21,11 @@ namespace Proyect_Sencom_Form.UI
         private void FrmGrafico_Load(object sender, EventArgs e)
         {
             ThemeManager.ApplyTheme(this);
+
             try
             {
                 var historial = _controller.ObtenerTodasLasFacturas();
 
-                // ============================
-                // VALIDAR DATOS VACÍOS
-                // ============================
                 if (historial == null || historial.Count == 0)
                 {
                     MessageBox.Show("No hay facturas registradas para graficar.",
@@ -37,22 +35,13 @@ namespace Proyect_Sencom_Form.UI
                     return;
                 }
 
-                // ============================
-                // LIMPIAR SERIES ANTERIORES
-                // ============================
                 chart1.Series.Clear();
 
-                // ============================
-                // SERIE DEL GRÁFICO
-                // ============================
                 Series serie = new Series("Producción Mensual (kWh)");
                 serie.ChartType = SeriesChartType.Column;
                 serie.XValueType = ChartValueType.String;
                 serie.YValueType = ChartValueType.Double;
 
-                // ============================
-                // LLENAR DATOS
-                // ============================
                 foreach (var factura in historial)
                 {
                     string mes = factura.MesNombre ?? "Mes";
@@ -63,9 +52,6 @@ namespace Proyect_Sencom_Form.UI
 
                 chart1.Series.Add(serie);
 
-                // ============================
-                // AJUSTAR EJE X
-                // ============================
                 if (chart1.ChartAreas.Count > 0)
                 {
                     chart1.ChartAreas[0].AxisX.Interval = 1;
@@ -82,15 +68,32 @@ namespace Proyect_Sencom_Form.UI
             }
         }
 
-        public void VolverAlPrincipal(string usuario = "")
+        // 🔥 CORREGIDO: YA NO CREA UN NUEVO Frmmain
+        public void VolverAlPrincipal()
         {
-            var frm = new FrmMain(usuario, _controller);
-            frm.Show();
-            this.Hide();
+            var main = this.Tag as Form;
+            if (main != null)
+                main.Show();
 
+            this.Close();
         }
 
         private void lblTitulo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        //  Esto garantiza que la app NO quede colgada si se cierra la ventana
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            var main = this.Tag as Form;
+            if (main != null)
+                main.Show();
+            else
+                Application.Exit();
+        }
+
+        private void chart1_Click(object sender, EventArgs e)
         {
 
         }

@@ -14,7 +14,6 @@
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFactura));
             this.label1 = new System.Windows.Forms.Label();
             this.txtNombreCliente = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -29,6 +28,7 @@
             this.panelHeader = new System.Windows.Forms.Panel();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.panelInputs = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFacturas)).BeginInit();
             this.panelHeader.SuspendLayout();
             this.panelInputs.SuspendLayout();
@@ -40,7 +40,7 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.label1.Location = new System.Drawing.Point(30, 25);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 19);
+            this.label1.Size = new System.Drawing.Size(142, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Nombre Cliente:";
             // 
@@ -49,7 +49,7 @@
             this.txtNombreCliente.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtNombreCliente.Location = new System.Drawing.Point(170, 22);
             this.txtNombreCliente.Name = "txtNombreCliente";
-            this.txtNombreCliente.Size = new System.Drawing.Size(220, 25);
+            this.txtNombreCliente.Size = new System.Drawing.Size(220, 30);
             this.txtNombreCliente.TabIndex = 1;
             // 
             // label2
@@ -58,7 +58,7 @@
             this.label2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.label2.Location = new System.Drawing.Point(30, 60);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(76, 19);
+            this.label2.Size = new System.Drawing.Size(90, 23);
             this.label2.TabIndex = 2;
             this.label2.Text = "Dirección:";
             // 
@@ -67,7 +67,7 @@
             this.txtDireccion.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtDireccion.Location = new System.Drawing.Point(170, 57);
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(220, 25);
+            this.txtDireccion.Size = new System.Drawing.Size(220, 30);
             this.txtDireccion.TabIndex = 3;
             // 
             // label3
@@ -76,7 +76,7 @@
             this.label3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.label3.Location = new System.Drawing.Point(30, 95);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(120, 19);
+            this.label3.Size = new System.Drawing.Size(143, 23);
             this.label3.TabIndex = 4;
             this.label3.Text = "Capacidad (kW):";
             // 
@@ -85,7 +85,7 @@
             this.txtCapacidadKw.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtCapacidadKw.Location = new System.Drawing.Point(170, 92);
             this.txtCapacidadKw.Name = "txtCapacidadKw";
-            this.txtCapacidadKw.Size = new System.Drawing.Size(100, 25);
+            this.txtCapacidadKw.Size = new System.Drawing.Size(100, 30);
             this.txtCapacidadKw.TabIndex = 5;
             // 
             // label4
@@ -94,7 +94,7 @@
             this.label4.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.label4.Location = new System.Drawing.Point(30, 130);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(54, 19);
+            this.label4.Size = new System.Drawing.Size(63, 23);
             this.label4.TabIndex = 6;
             this.label4.Text = "Meses:";
             // 
@@ -103,7 +103,7 @@
             this.txtMeses.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtMeses.Location = new System.Drawing.Point(170, 127);
             this.txtMeses.Name = "txtMeses";
-            this.txtMeses.Size = new System.Drawing.Size(100, 25);
+            this.txtMeses.Size = new System.Drawing.Size(100, 30);
             this.txtMeses.TabIndex = 7;
             // 
             // btnGenerar
@@ -123,11 +123,13 @@
             // dgvFacturas
             // 
             this.dgvFacturas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvFacturas.ColumnHeadersHeight = 29;
             this.dgvFacturas.Location = new System.Drawing.Point(20, 255);
             this.dgvFacturas.Name = "dgvFacturas";
             this.dgvFacturas.RowHeadersWidth = 51;
-            this.dgvFacturas.Size = new System.Drawing.Size(660, 230);
+            this.dgvFacturas.Size = new System.Drawing.Size(660, 198);
             this.dgvFacturas.TabIndex = 2;
+            this.dgvFacturas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFacturas_CellContentClick);
             // 
             // lblMensaje
             // 
@@ -178,17 +180,32 @@
             this.panelInputs.Name = "panelInputs";
             this.panelInputs.Size = new System.Drawing.Size(660, 170);
             this.panelInputs.TabIndex = 0;
+            this.panelInputs.Paint += new System.Windows.Forms.PaintEventHandler(this.panelInputs_Paint);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.DimGray;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(20, 463);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(120, 35);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Atrás";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // FrmFactura
             // 
             this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(700, 510);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.panelInputs);
             this.Controls.Add(this.panelHeader);
             this.Controls.Add(this.dgvFacturas);
             this.Controls.Add(this.lblMensaje);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmFactura";
@@ -219,5 +236,6 @@
         private System.Windows.Forms.Panel panelHeader;
         private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Panel panelInputs;
+        private System.Windows.Forms.Button button1;
     }
 }

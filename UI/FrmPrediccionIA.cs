@@ -27,6 +27,7 @@ namespace Proyect_Sencom_Form.UI
                 lblMensaje.ForeColor = System.Drawing.Color.Maroon;
                 return;
             }
+
             _ia.EntrenarModelo(historial);
             _modeloEntrenado = true;
             lblMensaje.Text = "Modelo entrenado.";
@@ -41,13 +42,16 @@ namespace Proyect_Sencom_Form.UI
                 lblMensaje.ForeColor = System.Drawing.Color.Maroon;
                 return;
             }
+
             string nombre = txtNombreCliente.Text.Trim();
+
             if (!ValidadorFactura.EsNombreValido(nombre))
             {
                 lblMensaje.Text = "Nombre inválido.";
                 lblMensaje.ForeColor = System.Drawing.Color.Maroon;
                 return;
             }
+
             var lista = _controller.ObtenerHistorialPorCliente(nombre.ToLower());
             if (lista == null || lista.Count == 0)
             {
@@ -55,18 +59,23 @@ namespace Proyect_Sencom_Form.UI
                 lblMensaje.ForeColor = System.Drawing.Color.Maroon;
                 return;
             }
+
             int mesPrediccion;
-            if (!int.TryParse(txtMesPrediccion.Text.Trim(), out mesPrediccion) || mesPrediccion < 1 || mesPrediccion > 12)
+            if (!int.TryParse(txtMesPrediccion.Text.Trim(), out mesPrediccion) ||
+                mesPrediccion < 1 || mesPrediccion > 12)
             {
                 mesPrediccion = lista.Last().MesNumero + 1;
                 if (mesPrediccion > 12) mesPrediccion = 12;
             }
+
             var ultima = lista.Last();
+
             float prediccion = _ia.PredecirMonto(
                 mesPrediccion,
                 ultima.ProduccionKwhMes,
                 ultima.CapacidadPlantaKw
             );
+
             txtResultado.Text = prediccion.ToString("C2");
             lblMensaje.Text = "Predicción generada.";
             lblMensaje.ForeColor = System.Drawing.Color.Green;
@@ -78,12 +87,27 @@ namespace Proyect_Sencom_Form.UI
             lblMensaje.Text = string.Empty;
         }
 
-        public void VolverAlPrincipal(string usuario = "")
+        public void VolverAlPrincipal()
         {
-            var frm = new FrmMain(usuario, _controller);
-            frm.Show();
-            this.Hide();
+            var main = this.Tag as Form;
+            if (main != null)
+                main.Show();
 
+            this.Close();
+        }
+
+        // ⚠️ Eliminado porque provocaba cierres accidentales
+        private void lblMensaje_Click(object sender, EventArgs e)
+        {
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            var main = this.Tag as Form;
+            if (main != null)
+                main.Show();
+            else
+                Application.Exit(); // Sólo si se cerrara directo sin padre
         }
     }
 }
