@@ -43,18 +43,17 @@ namespace Proyect_Sencom_Form.UI
                     return;
                 }
 
-                if (!ValidadorFactura.EsDecimalPositivo(txtCapacidadKw.Text, out double capacidad))
+                if (!ValidadorFactura.EsDecimalPositivo(txtCapacidadKw.Text, out double capacidadKw))
                 {
-                    MostrarError("Capacidad inválida.");
+                    MostrarError("Capacidad de planta inválida.");
                     return;
                 }
 
-                if (!ValidadorFactura.EsDecimalPositivo(txtProduccion.Text, out double produccion))
+                if (!ValidadorFactura.EsEnteroPositivo(txtMeses.Text, out int numeroMes))
                 {
-                    MostrarError("Producción inválida.");
+                    MostrarError("Número de mes inválido.");
                     return;
                 }
-
 
                 // ==========================
                 // CREAR CLIENTE
@@ -67,23 +66,48 @@ namespace Proyect_Sencom_Form.UI
                 };
 
                 // ==========================
-                // CREAR FACTURA MANUAL
+                // CALCULOS AUTOMÁTICOS (PORTADO DE PYTHON)
+                // ==========================
+                const double PRECIO_KW = 0.15;
+                Random r = new Random();
+
+                // 1. Producción base mensual
+                double produccionBaseMensual = Utilidades.CalcularProduccionBaseMensual(capacidadKw);
+
+                // 2. Producción real del mes con variación ±5%
+                double produccionMes = Utilidades.AplicarVariacionAleatoria(produccionBaseMensual, r);
+
+                // 3. Producción acumulada (simple suma por los meses anteriores)
+                double produccionAcumulada = produccionMes * numeroMes;
+
+                // 4. Monto mensual y acumulado
+                double montoMes = produccionMes * PRECIO_KW;
+                double montoAcumulado = produccionAcumulada * PRECIO_KW;
+
+                // 5. Mes actual (usando Utilidades)
+                string mesNombre = Utilidades.SeleccionarMes(numeroMes);
+
+                // ==========================
+                // CREAR FACTURA YA CON CÁLCULOS
                 // ==========================
                 Factura factura = new Factura
                 {
                     IdFactura = new Random().Next(1, 999999),
                     Cliente = cliente,
                     FechaEmision = DateTime.Now,
-                    MesNumero = DateTime.Now.Month,
-                    MesNombre = DateTime.Now.ToString("MMMM"),
-                    ProduccionKwhMes = capacidad,
-                    CapacidadPlantaKw = capacidad,
-                    MontoMes = capacidad * 0.15
+
+                    MesNumero = numeroMes,
+                    MesNombre = mesNombre,
+
+                    CapacidadPlantaKw = capacidadKw,
+                    ProduccionKwhMes = produccionMes,
+                    ProduccionAcumuladaKwh = produccionAcumulada,
+
+                    MontoMes = montoMes,
+                    MontoAcumulado = montoAcumulado
                 };
 
                 _controller.AgregarFactura(factura);
-
-
 
                 // ==========================
                 // REFRESCAR GRID
@@ -101,6 +125,7 @@ namespace Proyect_Sencom_Form.UI
                 MostrarError(ex.Message);
             }
         }
+
 
         private void LimpiarCampos()
         {
@@ -130,6 +155,21 @@ namespace Proyect_Sencom_Form.UI
         }
 
         private void panelInputs_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lblTitulo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvFacturas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

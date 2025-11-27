@@ -51,6 +51,8 @@
             this.btnAtras = new System.Windows.Forms.Button();
             this.lblMensaje = new System.Windows.Forms.Label();
             this.dgvFacturas = new System.Windows.Forms.DataGridView();
+            this.txtMeses = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.panelHeader.SuspendLayout();
             this.panelInputs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFacturas)).BeginInit();
@@ -77,11 +79,14 @@
             this.lblTitulo.TabIndex = 0;
             this.lblTitulo.Text = "Registrar Factura";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTitulo.Click += new System.EventHandler(this.lblTitulo_Click);
             // 
             // panelInputs
             // 
             this.panelInputs.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panelInputs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelInputs.Controls.Add(this.label1);
+            this.panelInputs.Controls.Add(this.txtMeses);
             this.panelInputs.Controls.Add(this.lblNombreCliente);
             this.panelInputs.Controls.Add(this.txtNombreCliente);
             this.panelInputs.Controls.Add(this.lblDireccion);
@@ -205,6 +210,24 @@
             this.dgvFacturas.RowHeadersWidth = 51;
             this.dgvFacturas.Size = new System.Drawing.Size(760, 220);
             this.dgvFacturas.TabIndex = 3;
+            this.dgvFacturas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFacturas_CellContentClick);
+            // 
+            // txtMeses
+            // 
+            this.txtMeses.Location = new System.Drawing.Point(570, 52);
+            this.txtMeses.Name = "txtMeses";
+            this.txtMeses.Size = new System.Drawing.Size(150, 22);
+            this.txtMeses.TabIndex = 12;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(403, 52);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(134, 16);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Meses de operación:";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // FrmFactura
             // 
@@ -225,5 +248,8 @@
             this.ResumeLayout(false);
 
         }
+
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtMeses;
     }
 }
