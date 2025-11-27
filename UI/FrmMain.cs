@@ -2,6 +2,7 @@
 using Proyect_Sencom_Form.Business;
 using System;
 using System.Windows.Forms;
+using Proyect_Sencom_Form.Domain;
 
 namespace Proyect_Sencom_Form.UI
 {
@@ -39,6 +40,106 @@ namespace Proyect_Sencom_Form.UI
             Controls.Add(btnToggleTheme);
             btnToggleTheme.BringToFront();
         }
+        private void btnMostrarFacturas_Click(object sender, EventArgs e)
+        {
+            var lista = _controller.ObtenerFacturasOrdenadas(); // ← BST INORDEN
+
+            if (lista == null || lista.Count == 0)
+            {
+                MessageBox.Show("No hay facturas registradas.");
+                return;
+            }
+
+            lstFacturas.Items.Clear();
+            foreach (var factura in lista)
+            {
+                string cliente = factura.Cliente?.Nombre ?? "(sin cliente)";
+                lstFacturas.Items.Add(
+                    $"ID {factura.IdFactura} | {cliente} | {factura.FechaEmision:dd/MM/yyyy} | ${factura.MontoMes:F2}"
+                );
+            }
+        }
+
+        private void btnBuscarFactura_Click(object sender, EventArgs e)
+        {
+            if (!int.TryParse(txtBuscarId.Text.Trim(), out int idBuscado))
+            {
+                MessageBox.Show("Ingrese un ID numérico válido.");
+                return;
+            }
+
+            var factura = _controller.BuscarFacturaPorId(idBuscado); // ← BST real
+
+            if (factura == null)
+            {
+                MessageBox.Show("No existe una factura con ese ID.");
+                return;
+            }
+
+            string cliente = factura.Cliente?.Nombre ?? "(sin cliente)";
+            MessageBox.Show(
+                $"Factura encontrada:\n" +
+                $"ID: {factura.IdFactura}\n" +
+                $"Cliente: {cliente}\n" +
+                $"Fecha: {factura.FechaEmision:dd/MM/yyyy}\n" +
+                $"Monto: ${factura.MontoMes:F2}"
+            );
+
+            // Mostrar la lista ordenada con la factura seleccionada
+            var listaOrdenada = _controller.ObtenerFacturasOrdenadas();
+            lstFacturas.Items.Clear();
+
+            for (int i = 0; i < listaOrdenada.Count; i++)
+            {
+                var f = listaOrdenada[i];
+                string c = f.Cliente?.Nombre ?? "(sin cliente)";
+                lstFacturas.Items.Add(
+                    $"ID {f.IdFactura} | {c} | {f.FechaEmision:dd/MM/yyyy} | ${f.MontoMes:F2}"
+                );
+
+                if (f.IdFactura == idBuscado)
+                    lstFacturas.SelectedIndex = i;
+            }
+        }
+
+        private void MostrarListaEnPantalla(System.Collections.Generic.List<Factura> lista, int indiceSeleccionado)
+        {
+            lstFacturas.Items.Clear();
+            for (int i = 0; i < lista.Count; i++)
+            {
+                var factura = lista[i];
+                string cliente = factura.Cliente?.Nombre ?? "(sin cliente)";
+                lstFacturas.Items.Add($"ID {factura.IdFactura} - {cliente} - {factura.FechaEmision:dd/MM/yyyy} - ${factura.MontoMes:F2}");
+            }
+
+            if (indiceSeleccionado >= 0 && indiceSeleccionado < lstFacturas.Items.Count)
+            {
+                lstFacturas.SelectedIndex = indiceSeleccionado;
+            }
+        }
+
+        private int BinarySearchFactura(System.Collections.Generic.List<Factura> lista, int idBuscado)
+        {
+            int izquierda = 0;
+            int derecha = lista.Count - 1;
+
+            while (izquierda <= derecha)
+            {
+                int medio = (izquierda + derecha) / 2;
+                int idActual = lista[medio].IdFactura;
+
+                if (idActual == idBuscado)
+                    return medio;
+
+                if (idActual < idBuscado)
+                    izquierda = medio + 1;
+                else
+                    derecha = medio - 1;
+            }
+
+            return -1;
+        }
+
 
         private void AbrirUnico(Form frm)
         {
@@ -62,7 +163,8 @@ namespace Proyect_Sencom_Form.UI
 
         private void btnExportarPdf_Click(object sender, EventArgs e)
         {
-            var lista = _controller.ObtenerTodasLasFacturas();
+            var lista = _controller.ObtenerFacturasOrdenadas();
+
             if (lista == null || lista.Count == 0)
             {
                 MessageBox.Show("No hay facturas para exportar.");

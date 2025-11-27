@@ -1,4 +1,5 @@
 ﻿using System;
+using Proyect_Sencom_Form.Domain;   // ← NECESARIO para Factura y Cliente
 
 namespace Proyect_Sencom_Form.Domain
 {

@@ -4,6 +4,7 @@ using Proyect_Sencom_Form.Domain;
 using System;
 using System.Windows.Forms;
 
+
 namespace Proyect_Sencom_Form.UI
 {
     public partial class FrmFactura : Form
@@ -13,21 +14,23 @@ namespace Proyect_Sencom_Form.UI
         public FrmFactura(FacturaController controller)
         {
             InitializeComponent();
-            _controller = controller;
+            _controller = controller ?? throw new ArgumentNullException(nameof(controller));
         }
 
         private void FrmFactura_Load(object sender, EventArgs e)
         {
             ThemeManager.ApplyTheme(this);
-
             dgvFacturas.AutoGenerateColumns = true;
-            dgvFacturas.DataSource = _controller.ObtenerTodasLasFacturas();
+            dgvFacturas.DataSource = _controller.ObtenerFacturasOrdenadas();
         }
 
         private void btnGenerar_Click(object sender, EventArgs e)
         {
             try
             {
+                // ==========================
+                // VALIDACIONES
+                // ==========================
                 if (!ValidadorFactura.EsNombreValido(txtNombreCliente.Text))
                 {
                     MostrarError("Nombre inválido.");
@@ -46,36 +49,64 @@ namespace Proyect_Sencom_Form.UI
                     return;
                 }
 
-                if (!ValidadorFactura.EsEnteroPositivo(txtMeses.Text, out int meses))
+                if (!ValidadorFactura.EsDecimalPositivo(txtProduccion.Text, out double produccion))
                 {
-                    MostrarError("Meses inválidos.");
+                    MostrarError("Producción inválida.");
                     return;
                 }
 
-                Cliente cli = new Cliente
+
+                // ==========================
+                // CREAR CLIENTE
+                // ==========================
+                Cliente cliente = new Cliente
                 {
                     IdCliente = new Random().Next(1, 99999),
                     Nombre = txtNombreCliente.Text.Trim(),
                     Direccion = txtDireccion.Text.Trim()
                 };
 
-                _controller.GenerarFacturasSimuladas(
-                    cli,
-                    capacidad,
-                    meses,
-                    DateTime.Now.AddMonths(-meses)
-                );
+                // ==========================
+                // CREAR FACTURA MANUAL
+                // ==========================
+                Factura factura = new Factura
+                {
+                    IdFactura = new Random().Next(1, 999999),
+                    Cliente = cliente,
+                    FechaEmision = DateTime.Now,
+                    MesNumero = DateTime.Now.Month,
+                    MesNombre = DateTime.Now.ToString("MMMM"),
+                    ProduccionKwhMes = capacidad,
+                    CapacidadPlantaKw = capacidad,
+                    MontoMes = capacidad * 0.15
+                };
 
+                _controller.AgregarFactura(factura);
+
+
+
+                // ==========================
+                // REFRESCAR GRID
+                // ==========================
                 dgvFacturas.DataSource = null;
-                dgvFacturas.DataSource = _controller.ObtenerTodasLasFacturas();
+                dgvFacturas.DataSource = _controller.ObtenerFacturasOrdenadas();
 
-                lblMensaje.Text = "Facturas generadas correctamente.";
+                lblMensaje.Text = "Factura registrada correctamente.";
                 lblMensaje.ForeColor = System.Drawing.Color.Green;
+
+                LimpiarCampos();
             }
             catch (Exception ex)
             {
                 MostrarError(ex.Message);
             }
+        }
+
+        private void LimpiarCampos()
+        {
+            txtNombreCliente.Text = "";
+            txtDireccion.Text = "";
+            txtCapacidadKw.Text = "";
         }
 
         private void MostrarError(string msg)
@@ -84,28 +115,23 @@ namespace Proyect_Sencom_Form.UI
             lblMensaje.ForeColor = System.Drawing.Color.Red;
         }
 
-        // BOTÓN ATRÁS — usar navegación segura
         private void button1_Click(object sender, EventArgs e)
         {
-            var main = new FrmMain("Usuario", _controller);
-            main.Show();
-            this.Close();
+            this.Close(); // ← usa el TAG del padre, no crea ventanas nuevas
         }
 
-
-        // NO USAR Application.Exit
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            // Evita que el proceso quede vivo
-            base.OnFormClosed(e);
-        }
-
-        private void dgvFacturas_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
+            var main = this.Tag as Form;
+            if (main != null)
+                main.Show();
+            else
+                Application.Exit();
         }
 
         private void panelInputs_Paint(object sender, PaintEventArgs e)
         {
+
         }
     }
 }

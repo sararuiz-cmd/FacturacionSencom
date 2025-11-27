@@ -24,7 +24,7 @@ namespace Proyect_Sencom_Form.UI
 
             try
             {
-                var historial = _controller.ObtenerTodasLasFacturas();
+                var historial = _controller.ObtenerFacturasOrdenadas();
 
                 if (historial == null || historial.Count == 0)
                 {
