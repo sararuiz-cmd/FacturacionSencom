@@ -88,6 +88,7 @@
             this.panelBotones.Name = "panelBotones";
             this.panelBotones.Size = new System.Drawing.Size(760, 218);
             this.panelBotones.TabIndex = 0;
+            this.panelBotones.Paint += new System.Windows.Forms.PaintEventHandler(this.panelBotones_Paint_1);
             // 
             // btnVerGrafico
             // 

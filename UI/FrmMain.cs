@@ -223,16 +223,13 @@ namespace Proyect_Sencom_Form.UI
         }
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            var main = this.Tag as Form;
-            if (main != null)
-                main.Show();
-
             this.Close();
         }
 
+        private void panelBotones_Paint_1(object sender, PaintEventArgs e)
+        {
 
-
-
+        }
     }
 }
 
