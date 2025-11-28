@@ -235,10 +235,9 @@ namespace Proyect_Sencom_Form.UI
         private void button1_Click(object sender, EventArgs e)
         {
             var frm = new FrmLogin(_controller);
-            frm.Tag = this;  // ← Enlaza el padre
-            frm.Show();
             this.Close();
-          
+            frm.Show();
+
         }
     }
 }
