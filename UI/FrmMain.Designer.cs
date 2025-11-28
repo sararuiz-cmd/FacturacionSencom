@@ -11,7 +11,6 @@
         private System.Windows.Forms.Panel panelHeader;
         private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Panel panelBotones;
-        private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Label lblBuscarFactura;
         private System.Windows.Forms.TextBox txtBuscarId;
         private System.Windows.Forms.Button btnBuscarFactura;
@@ -34,12 +33,12 @@
             this.btnRegistrarFactura = new System.Windows.Forms.Button();
             this.btnPrediccionIA = new System.Windows.Forms.Button();
             this.btnExportarPdf = new System.Windows.Forms.Button();
-            this.btnVolver = new System.Windows.Forms.Button();
             this.lblBuscarFactura = new System.Windows.Forms.Label();
             this.txtBuscarId = new System.Windows.Forms.TextBox();
             this.btnBuscarFactura = new System.Windows.Forms.Button();
             this.btnMostrarFacturas = new System.Windows.Forms.Button();
             this.lstFacturas = new System.Windows.Forms.ListBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.panelHeader.SuspendLayout();
             this.panelBotones.SuspendLayout();
             this.SuspendLayout();
@@ -83,7 +82,6 @@
             this.panelBotones.Controls.Add(this.btnRegistrarFactura);
             this.panelBotones.Controls.Add(this.btnPrediccionIA);
             this.panelBotones.Controls.Add(this.btnExportarPdf);
-            this.panelBotones.Controls.Add(this.btnVolver);
             this.panelBotones.Location = new System.Drawing.Point(20, 90);
             this.panelBotones.Name = "panelBotones";
             this.panelBotones.Size = new System.Drawing.Size(760, 218);
@@ -131,6 +129,7 @@
             this.btnPrediccionIA.Text = "Predicción IA";
             this.btnPrediccionIA.UseVisualStyleBackColor = false;
             this.btnPrediccionIA.Click += new System.EventHandler(this.btnPrediccionIA_Click);
+            this.btnPrediccionIA.Paint += new System.Windows.Forms.PaintEventHandler(this.c);
             // 
             // btnExportarPdf
             // 
@@ -145,20 +144,6 @@
             this.btnExportarPdf.Text = "Exportar PDF";
             this.btnExportarPdf.UseVisualStyleBackColor = false;
             this.btnExportarPdf.Click += new System.EventHandler(this.btnExportarPdf_Click);
-            // 
-            // btnVolver
-            // 
-            this.btnVolver.BackColor = System.Drawing.Color.DimGray;
-            this.btnVolver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnVolver.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnVolver.ForeColor = System.Drawing.Color.White;
-            this.btnVolver.Location = new System.Drawing.Point(247, 164);
-            this.btnVolver.Name = "btnVolver";
-            this.btnVolver.Size = new System.Drawing.Size(230, 36);
-            this.btnVolver.TabIndex = 4;
-            this.btnVolver.Text = "Atrás";
-            this.btnVolver.UseVisualStyleBackColor = false;
-            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // lblBuscarFactura
             // 
@@ -215,10 +200,25 @@
             this.lstFacturas.Size = new System.Drawing.Size(760, 132);
             this.lstFacturas.TabIndex = 1;
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.DimGray;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(659, 634);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(129, 35);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Cerrar Sesión";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // FrmMain
             // 
             this.BackColor = System.Drawing.Color.Gainsboro;
-            this.ClientSize = new System.Drawing.Size(800, 520);
+            this.ClientSize = new System.Drawing.Size(800, 681);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.panelBotones);
             this.Controls.Add(this.lstFacturas);
             this.Controls.Add(this.btnMostrarFacturas);
@@ -240,5 +240,7 @@
             this.PerformLayout();
 
         }
+
+        private System.Windows.Forms.Button button1;
     }
 }

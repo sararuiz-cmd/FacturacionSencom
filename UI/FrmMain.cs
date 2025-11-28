@@ -221,14 +221,24 @@ namespace Proyect_Sencom_Form.UI
         {
 
         }
-        private void btnVolver_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
 
         private void panelBotones_Paint_1(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void c(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmLogin(_controller);
+            frm.Tag = this;  // ← Enlaza el padre
+            frm.Show();
+            this.Close();
+          
         }
     }
 }
