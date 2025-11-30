@@ -3,6 +3,8 @@ using Proyect_Sencom_Form.Business;
 using System;
 using System.Windows.Forms;
 using Proyect_Sencom_Form.Domain;
+using Microsoft.VisualBasic;   // para InputBox
+
 
 namespace Proyect_Sencom_Form.UI
 {
@@ -62,43 +64,29 @@ namespace Proyect_Sencom_Form.UI
 
         private void btnBuscarFactura_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(txtBuscarId.Text.Trim(), out int idBuscado))
+            string nombre = txtBuscarId.Text.Trim(); // ahora es nombre
+
+            if (string.IsNullOrWhiteSpace(nombre))
             {
-                MessageBox.Show("Ingrese un ID numérico válido.");
+                MessageBox.Show("Ingrese el nombre del cliente a buscar.");
                 return;
             }
 
-            var factura = _controller.BuscarFacturaPorId(idBuscado); // ← BST real
+            var lista = _controller.ObtenerHistorialPorCliente(nombre.ToLower());
 
-            if (factura == null)
+            if (lista == null || lista.Count == 0)
             {
-                MessageBox.Show("No existe una factura con ese ID.");
+                MessageBox.Show("No se encontraron facturas para ese nombre.");
                 return;
             }
 
-            string cliente = factura.Cliente?.Nombre ?? "(sin cliente)";
-            MessageBox.Show(
-                $"Factura encontrada:\n" +
-                $"ID: {factura.IdFactura}\n" +
-                $"Cliente: {cliente}\n" +
-                $"Fecha: {factura.FechaEmision:dd/MM/yyyy}\n" +
-                $"Monto: ${factura.MontoMes:F2}"
-            );
-
-            // Mostrar la lista ordenada con la factura seleccionada
-            var listaOrdenada = _controller.ObtenerFacturasOrdenadas();
             lstFacturas.Items.Clear();
-
-            for (int i = 0; i < listaOrdenada.Count; i++)
+            foreach (var factura in lista)
             {
-                var f = listaOrdenada[i];
-                string c = f.Cliente?.Nombre ?? "(sin cliente)";
+                string cliente = factura.Cliente?.Nombre ?? "(sin cliente)";
                 lstFacturas.Items.Add(
-                    $"ID {f.IdFactura} | {c} | {f.FechaEmision:dd/MM/yyyy} | ${f.MontoMes:F2}"
+                    $"ID {factura.IdFactura} | {cliente} | {factura.FechaEmision:dd/MM/yyyy} | ${factura.MontoMes:F2}"
                 );
-
-                if (f.IdFactura == idBuscado)
-                    lstFacturas.SelectedIndex = i;
             }
         }
 
@@ -239,6 +227,169 @@ namespace Proyect_Sencom_Form.UI
             frm.Show();
 
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+        private int ExtraerIdDesdeLinea(string linea)
+        {
+            if (string.IsNullOrWhiteSpace(linea)) return -1;
+            // Formato: "ID 3 | Cliente ..."
+            var partes = linea.Split(' ');
+            if (partes.Length < 2) return -1;
+
+            if (int.TryParse(partes[1], out int id))
+                return id;
+
+            return -1;
+        }
+        private void btnEliminarFactura_Click(object sender, EventArgs e)
+        {
+            if (lstFacturas.SelectedIndex == -1)
+            {
+                MessageBox.Show("Primero busque por nombre y seleccione la factura que desea eliminar en la lista.");
+                return;
+            }
+
+            string linea = lstFacturas.SelectedItem.ToString();
+            int id = ExtraerIdDesdeLinea(linea);
+
+            if (id == -1)
+            {
+                MessageBox.Show("No se pudo obtener el ID de la factura seleccionada.");
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                $"¿Seguro que desea eliminar la factura ID {id}?",
+                "Confirmar eliminación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            _controller.EliminarFacturaPorId(id);
+
+            MessageBox.Show("Factura eliminada correctamente.");
+            btnMostrarFacturas_Click(null, null); // mostrar todo en orden
+        }
+        private void btnActualizarFactura_Click(object sender, EventArgs e)
+        {
+            if (lstFacturas.SelectedIndex == -1)
+            {
+                MessageBox.Show("Primero seleccione una factura de la lista para modificar.");
+                return;
+            }
+
+            string linea = lstFacturas.SelectedItem.ToString();
+            int id = ExtraerIdDesdeLinea(linea);
+
+            if (id == -1)
+            {
+                MessageBox.Show("No se pudo obtener el ID de la factura seleccionada.");
+                return;
+            }
+
+            var factura = _controller.BuscarFacturaPorId(id);
+            if (factura == null)
+            {
+                MessageBox.Show("No se encontró la factura en el sistema.");
+                return;
+            }
+
+            // Clonar datos actuales para edición
+            var cliente = factura.Cliente ?? new Cliente();
+            var nueva = new Factura
+            {
+                IdFactura = factura.IdFactura,
+                Cliente = new Cliente
+                {
+                    Nombre = cliente.Nombre,
+                    Direccion = cliente.Direccion
+                },
+                FechaEmision = factura.FechaEmision,
+                MesNumero = factura.MesNumero,
+                MesNombre = factura.MesNombre,
+                CapacidadPlantaKw = factura.CapacidadPlantaKw,
+                ProduccionKwhMes = factura.ProduccionKwhMes,
+                ProduccionAcumuladaKwh = factura.ProduccionAcumuladaKwh,
+                MontoMes = factura.MontoMes,
+                MontoAcumulado = factura.MontoAcumulado
+            };
+
+            // --- Editar campos con InputBox ---
+
+            string nuevoNombre = Interaction.InputBox("Nombre del cliente:", "Modificar factura", nueva.Cliente.Nombre);
+            if (!string.IsNullOrWhiteSpace(nuevoNombre))
+            {
+                if (!ValidadorFactura.EsNombreValido(nuevoNombre))
+                {
+                    MessageBox.Show("Nombre inválido.");
+                    return;
+                }
+                nueva.Cliente.Nombre = nuevoNombre.Trim();
+            }
+
+            string nuevaDir = Interaction.InputBox("Dirección del cliente:", "Modificar factura", nueva.Cliente.Direccion);
+            if (!string.IsNullOrWhiteSpace(nuevaDir))
+                nueva.Cliente.Direccion = nuevaDir.Trim();
+
+            string capStr = Interaction.InputBox("Capacidad de la planta (kW):", "Modificar factura", nueva.CapacidadPlantaKw.ToString());
+            if (!string.IsNullOrWhiteSpace(capStr))
+            {
+                if (!double.TryParse(capStr, out double cap) || cap <= 0)
+                {
+                    MessageBox.Show("Capacidad inválida.");
+                    return;
+                }
+                nueva.CapacidadPlantaKw = cap;
+            }
+
+            string prodStr = Interaction.InputBox("Producción del mes (kWh):", "Modificar factura", nueva.ProduccionKwhMes.ToString());
+            if (!string.IsNullOrWhiteSpace(prodStr))
+            {
+                if (!double.TryParse(prodStr, out double prod) || prod < 0)
+                {
+                    MessageBox.Show("Producción inválida.");
+                    return;
+                }
+                nueva.ProduccionKwhMes = prod;
+            }
+
+            string montoStr = Interaction.InputBox("Monto del mes:", "Modificar factura", nueva.MontoMes.ToString());
+            if (!string.IsNullOrWhiteSpace(montoStr))
+            {
+                if (!double.TryParse(montoStr, out double monto) || monto < 0)
+                {
+                    MessageBox.Show("Monto inválido.");
+                    return;
+                }
+                nueva.MontoMes = monto;
+            }
+
+            string fechaStr = Interaction.InputBox("Fecha de emisión (dd/MM/yyyy):", "Modificar factura", nueva.FechaEmision.ToString("dd/MM/yyyy"));
+            if (!string.IsNullOrWhiteSpace(fechaStr))
+            {
+                if (!DateTime.TryParse(fechaStr, out DateTime nuevaFecha))
+                {
+                    MessageBox.Show("Fecha inválida.");
+                    return;
+                }
+                nueva.FechaEmision = nuevaFecha;
+                nueva.MesNumero = nuevaFecha.Month;
+                nueva.MesNombre = nuevaFecha.ToString("MMMM");
+            }
+
+            _controller.ActualizarFactura(nueva);
+
+            MessageBox.Show("Factura actualizada correctamente.");
+            btnMostrarFacturas_Click(null, null); // recargar lista completa
+        }
+
+
+
     }
 }
 

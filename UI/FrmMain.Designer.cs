@@ -27,8 +27,11 @@
         {
             this.lblUsuario = new System.Windows.Forms.Label();
             this.panelHeader = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.panelBotones = new System.Windows.Forms.Panel();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.btnVerGrafico = new System.Windows.Forms.Button();
             this.btnRegistrarFactura = new System.Windows.Forms.Button();
             this.btnPrediccionIA = new System.Windows.Forms.Button();
@@ -39,6 +42,7 @@
             this.btnMostrarFacturas = new System.Windows.Forms.Button();
             this.lstFacturas = new System.Windows.Forms.ListBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.panelHeader.SuspendLayout();
             this.panelBotones.SuspendLayout();
             this.SuspendLayout();
@@ -55,12 +59,26 @@
             // panelHeader
             // 
             this.panelHeader.BackColor = System.Drawing.Color.SteelBlue;
+            this.panelHeader.Controls.Add(this.label1);
             this.panelHeader.Controls.Add(this.lblTitulo);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHeader.Location = new System.Drawing.Point(0, 0);
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(800, 55);
             this.panelHeader.TabIndex = 6;
+            // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(800, 55);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Menú Principal";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // lblTitulo
             // 
@@ -78,15 +96,45 @@
             // 
             this.panelBotones.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panelBotones.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelBotones.Controls.Add(this.button3);
+            this.panelBotones.Controls.Add(this.button2);
             this.panelBotones.Controls.Add(this.btnVerGrafico);
             this.panelBotones.Controls.Add(this.btnRegistrarFactura);
             this.panelBotones.Controls.Add(this.btnPrediccionIA);
             this.panelBotones.Controls.Add(this.btnExportarPdf);
             this.panelBotones.Location = new System.Drawing.Point(20, 90);
             this.panelBotones.Name = "panelBotones";
-            this.panelBotones.Size = new System.Drawing.Size(760, 218);
+            this.panelBotones.Size = new System.Drawing.Size(760, 269);
             this.panelBotones.TabIndex = 0;
             this.panelBotones.Paint += new System.Windows.Forms.PaintEventHandler(this.panelBotones_Paint_1);
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.SteelBlue;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.button3.ForeColor = System.Drawing.Color.White;
+            this.button3.Location = new System.Drawing.Point(370, 170);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(320, 45);
+            this.button3.TabIndex = 5;
+            this.button3.Text = "Actualizar Factura";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.btnActualizarFactura_Click);
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.SteelBlue;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.button2.ForeColor = System.Drawing.Color.White;
+            this.button2.Location = new System.Drawing.Point(30, 170);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(320, 45);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Eliminar factura";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.btnEliminarFactura_Click);
             // 
             // btnVerGrafico
             // 
@@ -149,15 +197,15 @@
             // 
             this.lblBuscarFactura.AutoSize = true;
             this.lblBuscarFactura.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblBuscarFactura.Location = new System.Drawing.Point(20, 325);
+            this.lblBuscarFactura.Location = new System.Drawing.Point(20, 401);
             this.lblBuscarFactura.Name = "lblBuscarFactura";
-            this.lblBuscarFactura.Size = new System.Drawing.Size(162, 20);
+            this.lblBuscarFactura.Size = new System.Drawing.Size(197, 20);
             this.lblBuscarFactura.TabIndex = 5;
-            this.lblBuscarFactura.Text = "Buscar factura por ID:";
+            this.lblBuscarFactura.Text = "Buscar factura por nombre\r\n";
             // 
             // txtBuscarId
             // 
-            this.txtBuscarId.Location = new System.Drawing.Point(188, 325);
+            this.txtBuscarId.Location = new System.Drawing.Point(219, 399);
             this.txtBuscarId.Name = "txtBuscarId";
             this.txtBuscarId.Size = new System.Drawing.Size(120, 22);
             this.txtBuscarId.TabIndex = 4;
@@ -168,7 +216,7 @@
             this.btnBuscarFactura.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscarFactura.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnBuscarFactura.ForeColor = System.Drawing.Color.White;
-            this.btnBuscarFactura.Location = new System.Drawing.Point(359, 320);
+            this.btnBuscarFactura.Location = new System.Drawing.Point(364, 396);
             this.btnBuscarFactura.Name = "btnBuscarFactura";
             this.btnBuscarFactura.Size = new System.Drawing.Size(170, 27);
             this.btnBuscarFactura.TabIndex = 3;
@@ -182,7 +230,7 @@
             this.btnMostrarFacturas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMostrarFacturas.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnMostrarFacturas.ForeColor = System.Drawing.Color.White;
-            this.btnMostrarFacturas.Location = new System.Drawing.Point(585, 320);
+            this.btnMostrarFacturas.Location = new System.Drawing.Point(562, 396);
             this.btnMostrarFacturas.Name = "btnMostrarFacturas";
             this.btnMostrarFacturas.Size = new System.Drawing.Size(170, 27);
             this.btnMostrarFacturas.TabIndex = 2;
@@ -195,7 +243,7 @@
             this.lstFacturas.FormattingEnabled = true;
             this.lstFacturas.HorizontalScrollbar = true;
             this.lstFacturas.ItemHeight = 16;
-            this.lstFacturas.Location = new System.Drawing.Point(20, 360);
+            this.lstFacturas.Location = new System.Drawing.Point(20, 436);
             this.lstFacturas.Name = "lstFacturas";
             this.lstFacturas.Size = new System.Drawing.Size(760, 132);
             this.lstFacturas.TabIndex = 1;
@@ -206,7 +254,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(659, 634);
+            this.button1.Location = new System.Drawing.Point(659, 680);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(129, 35);
             this.button1.TabIndex = 5;
@@ -214,10 +262,19 @@
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 680);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 16);
+            this.label2.TabIndex = 8;
+            // 
             // FrmMain
             // 
             this.BackColor = System.Drawing.Color.Gainsboro;
-            this.ClientSize = new System.Drawing.Size(800, 681);
+            this.ClientSize = new System.Drawing.Size(800, 718);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.panelBotones);
             this.Controls.Add(this.lstFacturas);
@@ -242,5 +299,9 @@
         }
 
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

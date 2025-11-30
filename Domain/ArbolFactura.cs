@@ -67,5 +67,52 @@ namespace Proyect_Sencom_Form.Domain
             }
             return res;
         }
+        public void Eliminar(int id)
+        {
+            _raiz = EliminarRec(_raiz, id);
+        }
+
+        private NodoFactura EliminarRec(NodoFactura nodo, int id)
+        {
+            if (nodo == null) return null;
+
+            if (id < nodo.Factura.IdFactura)
+            {
+                nodo.Izquierdo = EliminarRec(nodo.Izquierdo, id);
+            }
+            else if (id > nodo.Factura.IdFactura)
+            {
+                nodo.Derecho = EliminarRec(nodo.Derecho, id);
+            }
+            else
+            {
+                // CASO 1: hoja
+                if (nodo.Izquierdo == null && nodo.Derecho == null)
+                    return null;
+
+                // CASO 2: solo hijo derecho
+                if (nodo.Izquierdo == null)
+                    return nodo.Derecho;
+
+                // CASO 3: solo hijo izquierdo
+                if (nodo.Derecho == null)
+                    return nodo.Izquierdo;
+
+                // CASO 4: dos hijos → tomar el menor del subárbol derecho
+                var sucesor = EncontrarMin(nodo.Derecho);
+                nodo.Factura = sucesor.Factura;
+                nodo.Derecho = EliminarRec(nodo.Derecho, sucesor.Factura.IdFactura);
+            }
+
+            return nodo;
+        }
+
+        private NodoFactura EncontrarMin(NodoFactura nodo)
+        {
+            while (nodo.Izquierdo != null)
+                nodo = nodo.Izquierdo;
+            return nodo;
+        }
+
     }
 }

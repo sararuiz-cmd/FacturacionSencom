@@ -132,6 +132,8 @@ namespace Proyect_Sencom_Form.UI
             txtNombreCliente.Text = "";
             txtDireccion.Text = "";
             txtCapacidadKw.Text = "";
+            txtMeses.Text = "";
+            txtProduccion.Text = "";
         }
 
         private void MostrarError(string msg)
